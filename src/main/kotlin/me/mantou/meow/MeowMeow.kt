@@ -2,7 +2,6 @@ package me.mantou.meow
 
 import me.mantou.meow.register.CommandRegister
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
 import org.bukkit.command.CommandMap
 import org.bukkit.command.SimpleCommandMap
 import org.bukkit.plugin.java.JavaPlugin
@@ -24,7 +23,7 @@ class MeowMeow : JavaPlugin() {
     private fun unregisterCommands() {
         val knownCommands = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
             .apply { isAccessible = true }
-            .get(commandMap) as MutableMap<String, Command>
+            .get(commandMap) as MutableMap<*, *>
 
         CommandRegister.commands.forEach{
             knownCommands.remove(it.name)
