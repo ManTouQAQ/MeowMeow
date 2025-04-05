@@ -1,11 +1,35 @@
 package me.mantou.meow.register
 
-import me.mantou.meow.command.FillPlusCommand
-import me.mantou.meow.command.GetPosCommand
+import me.mantou.meow.command.*
+import org.bukkit.Bukkit
+import org.bukkit.command.CommandMap
+import org.bukkit.command.SimpleCommandMap
 
-object CommandRegister {
-    val commands = listOf(
+object CommandRegister : Register {
+    private const val COMMAND_NAMESPACE = "meow"
+    private val commandMap: CommandMap = Bukkit.getServer().javaClass
+        .getDeclaredMethod("getCommandMap")
+        .apply { isAccessible = true }
+        .invoke(Bukkit.getServer()) as CommandMap
+
+    private val commands = listOf(
         FillPlusCommand(),
         GetPosCommand(),
+        MeowCommand(),
     )
+
+    override fun register() {
+        commandMap.registerAll(COMMAND_NAMESPACE, commands)
+    }
+
+    override fun unregister() {
+        val knownCommands = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
+            .apply { isAccessible = true }
+            .get(commandMap) as MutableMap<*, *>
+
+        commands.forEach {
+            knownCommands.remove(it.name)
+            knownCommands.remove("meow:${it.name}")
+        }
+    }
 }

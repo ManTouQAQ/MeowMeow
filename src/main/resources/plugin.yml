@@ -1,6 +1,6 @@
 main: me.mantou.meow.MeowMeow
 name: MeowMeow
-version: 1.0
+version: ${version}
 api-version: 1.21.5
 author: Frontwing
 website: clannad.love

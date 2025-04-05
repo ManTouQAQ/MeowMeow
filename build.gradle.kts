@@ -23,3 +23,8 @@ tasks.test {
 kotlin {
     jvmToolchain(21)
 }
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand(project.properties)
+    }
+}

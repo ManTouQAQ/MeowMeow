@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 
 class FillPlusCommand : Command("fill+") {
     override fun execute(sender: CommandSender, root: String, args: Array<out String>): Boolean {
-        if (!sender.hasPermission("meowmeow.admin")) {
+        if (!sender.hasPermission("meow.admin")) {
             sender.sendMessage("§cNo permissions")
             return true
         }

@@ -1,33 +1,39 @@
 package me.mantou.meow
 
+import me.mantou.meow.config.ConfigManager
 import me.mantou.meow.register.CommandRegister
-import org.bukkit.Bukkit
-import org.bukkit.command.CommandMap
-import org.bukkit.command.SimpleCommandMap
+import me.mantou.meow.register.ConfigParserRegister
+import me.mantou.meow.register.ListenerRegister
 import org.bukkit.plugin.java.JavaPlugin
 
 class MeowMeow : JavaPlugin() {
-    private val commandMap: CommandMap = Bukkit.getServer().javaClass
-        .getDeclaredMethod("getCommandMap")
-        .apply { isAccessible = true }
-        .invoke(Bukkit.getServer()) as CommandMap
+    companion object {
+        lateinit var INSTANCE: MeowMeow private set
+    }
+
+    val configManager = ConfigManager(dataFolder)
+
+    init {
+        INSTANCE = this
+    }
 
     override fun onEnable() {
-        commandMap.registerAll("meow", CommandRegister.commands)
+        ConfigParserRegister.register()
+        configManager.init()
+        CommandRegister.register()
+        ListenerRegister.register()
     }
 
     override fun onDisable() {
-        unregisterCommands()
+        CommandRegister.unregister()
+        ListenerRegister.unregister()
     }
+}
 
-    private fun unregisterCommands() {
-        val knownCommands = SimpleCommandMap::class.java.getDeclaredField("knownCommands")
-            .apply { isAccessible = true }
-            .get(commandMap) as MutableMap<*, *>
+fun <T : Any> config(clazz: Class<T>): T {
+    return MeowMeow.INSTANCE.configManager.get(clazz)
+}
 
-        CommandRegister.commands.forEach{
-            knownCommands.remove(it.name)
-            knownCommands.remove("meow:${it.name}")
-        }
-    }
+inline fun <reified T : Any> config(): T {
+    return MeowMeow.INSTANCE.configManager.get(T::class.java)
 }
