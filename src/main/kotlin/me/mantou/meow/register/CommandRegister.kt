@@ -16,6 +16,7 @@ object CommandRegister : Register {
         FillPlusCommand(),
         GetPosCommand(),
         MeowCommand(),
+        HatCommand(),
     )
 
     override fun register() {

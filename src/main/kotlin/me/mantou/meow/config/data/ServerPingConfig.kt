@@ -13,18 +13,18 @@ class ServerPingConfig(val motdList: List<String>, val iconList: List<CachedServ
         }
 
         override fun parseData(folder: File): ServerPingConfig {
-            val motds: List<String>
-
             val motdFile = folder.resolve("./motd/motd.yml")
-            if (motdFile.exists()){
+
+            val motds = if (motdFile.exists()) {
                 val motdConfig = YamlConfiguration.loadConfiguration(motdFile)
-                motds = motdConfig.getStringList("motds")
-            }else{
-                motds = listOf()
+                motdConfig.getStringList("motds")
+            } else {
+                listOf()
             }
 
-            val icons = mutableListOf<CachedServerIcon>()
             val iconsFolder = folder.resolve("./motd/icons")
+
+            val icons = mutableListOf<CachedServerIcon>()
             if (iconsFolder.exists()) {
                 iconsFolder.listFiles()!!.filter {
                     it.extension.lowercase() == "png"

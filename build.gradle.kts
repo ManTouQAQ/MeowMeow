@@ -20,11 +20,27 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(21)
 }
+
 tasks.processResources {
     filesMatching("plugin.yml") {
         expand(project.properties)
     }
+}
+
+tasks.register<Copy>("copyPluginToRunDir") {
+    dependsOn(tasks.shadowJar)
+    from(tasks.shadowJar.get().archiveFile)
+    into("./run/plugins")
+}
+
+tasks.assemble {
+    dependsOn(tasks.shadowJar)
+}
+
+tasks.build {
+    finalizedBy("copyPluginToRunDir")
 }

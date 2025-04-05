@@ -7,7 +7,8 @@ import org.bukkit.Bukkit
 object ListenerRegister : Register {
 
     private val listeners = listOf(
-        ServerPingListener()
+        ServerPingListener(),
+        CreeperDisabler()
     )
 
     override fun register() {
