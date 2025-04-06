@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender
 
 class MeowCommand : Command("meow") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (args.size == 0){
+        if (args.isEmpty()){
             sender.sendMessage("§emeow~")
             return true
         }
