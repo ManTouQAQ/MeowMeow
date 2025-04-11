@@ -13,10 +13,13 @@ object CommandRegister : Register {
         .invoke(Bukkit.getServer()) as CommandMap
 
     private val commands = listOf(
-        FillPlusCommand(),
+        SetBlockCommand(),
         GetPosCommand(),
         MeowCommand(),
         HatCommand(),
+        ReplaceBlockCommand(),
+        UndoCommand(),
+        RedoCommand(),
     )
 
     override fun register() {

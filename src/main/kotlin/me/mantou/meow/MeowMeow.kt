@@ -1,6 +1,8 @@
 package me.mantou.meow
 
 import me.mantou.meow.config.ConfigManager
+import me.mantou.meow.placer.BlockPlaceManager
+import me.mantou.meow.manager.RegionSelectManager
 import me.mantou.meow.register.CommandRegister
 import me.mantou.meow.register.ConfigParserRegister
 import me.mantou.meow.register.ListenerRegister
@@ -12,6 +14,8 @@ class MeowMeow : JavaPlugin() {
     }
 
     val configManager = ConfigManager(dataFolder)
+    val regionSelectManager = RegionSelectManager(this)
+    val blockPlaceManager = BlockPlaceManager(this)
 
     init {
         INSTANCE = this
@@ -20,6 +24,8 @@ class MeowMeow : JavaPlugin() {
     override fun onEnable() {
         ConfigParserRegister.register()
         configManager.init()
+        regionSelectManager.init()
+        blockPlaceManager.init()
         CommandRegister.register()
         ListenerRegister.register()
     }

@@ -1,5 +1,6 @@
 package me.mantou.meow.command
 
+import me.mantou.meow.message.ConstantMessage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -7,7 +8,7 @@ import org.bukkit.entity.Player
 class HatCommand : Command("hat") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender !is Player){
-            sender.sendMessage("§cOnly player can use this command!")
+            sender.sendMessage(ConstantMessage.ONLY_PLAYER)
             return true
         }
 
