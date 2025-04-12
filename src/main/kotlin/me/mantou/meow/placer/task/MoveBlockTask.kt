@@ -32,13 +32,23 @@ class MoveBlockTask(
 
         val offset = Vector3i(direction).mul(length)
 
-        for (snapshot in needMoveBlocks) {
-            val newPos = Vector3i(snapshot.pos).add(offset)
+        for (needMoveSnapshot in needMoveBlocks) {
+            val newPos = Vector3i(needMoveSnapshot.pos).add(offset)
 
             val block = pos1.world!!.getBlockAt(newPos.x, newPos.y, newPos.z)
-            history.addSnapshot(newPos.x, newPos.y, newPos.z, block.type, snapshot.from, block.blockData)
-            block.type = snapshot.from
-            block.blockData = snapshot.fromData
+
+            val originalSnapshot = needMoveBlocks.find { it.pos == newPos }
+            if (originalSnapshot != null){
+                history.addSnapshot(newPos.x, newPos.y, newPos.z, originalSnapshot.from, needMoveSnapshot.from, originalSnapshot.fromData, needMoveSnapshot.fromData)
+            }else{
+                history.addSnapshot(newPos.x, newPos.y, newPos.z, block.type, needMoveSnapshot.from, block.blockData, needMoveSnapshot.fromData)
+            }
+
+            block.type = needMoveSnapshot.from
+
+            needMoveSnapshot.fromData?.apply {
+                block.blockData = this
+            }
         }
 
         history.push()

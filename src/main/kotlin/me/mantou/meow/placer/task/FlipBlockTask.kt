@@ -48,9 +48,19 @@ class FlipBlockTask(
             }
 
             val block = pos1.world!!.getBlockAt(newPos.x, newPos.y, newPos.z)
-            history.addSnapshot(newPos.x, newPos.y, newPos.z, block.type, snapshot.from, block.blockData)
+            history.addSnapshot(
+                newPos.x,
+                newPos.y,
+                newPos.z,
+                block.type,
+                snapshot.from,
+                block.blockData,
+                snapshot.fromData
+            )
             block.type = snapshot.from
-            block.blockData = snapshot.fromData // TODO 实现带有方向性的方块的转向
+            snapshot.fromData?.apply {
+                block.blockData = this
+            } // TODO 实现带有方向性的方块的转向
         }
 
         history.push()

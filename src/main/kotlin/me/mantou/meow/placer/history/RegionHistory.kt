@@ -17,9 +17,10 @@ class RegionHistory {
         tempWorld = world
     }
 
-    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material, fromData: BlockData): BlockSnapshot {
+    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material, fromData: BlockData? = null, toData: BlockData? = null): BlockSnapshot {
         if (tempWorld == null) throw RuntimeException("after add snapshot must call start method")
-        val snapshot = BlockSnapshot(Vector3i(x, y, z), from, to, fromData)
+        val snapshot = BlockSnapshot(Vector3i(x, y, z), from, to, fromData, toData)
+        tempBlockSnapshots.remove(snapshot)
         tempBlockSnapshots.add(snapshot)
         return snapshot
     }
