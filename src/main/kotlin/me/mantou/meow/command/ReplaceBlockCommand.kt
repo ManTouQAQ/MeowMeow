@@ -59,6 +59,8 @@ class ReplaceBlockCommand : Command("/replace") {
     private fun parseBlockType(player: Player, blockTypeStr: String): Material? {
         if (blockTypeStr.equals("hand", true)) {
             return getInHandBlockType(player) ?: let { player.sendMessage("§c请在手中选择方块"); null }
+        } else if(blockTypeStr.equals("offhand", true)){
+            return getInOffHandBlockType(player) ?: let { player.sendMessage("§c请在副手中选择方块"); null }
         } else {
             val keyToBukkit = NMSUtil.blockKeyToBukkit(blockTypeStr)
             if (keyToBukkit == null) {
@@ -72,6 +74,14 @@ class ReplaceBlockCommand : Command("/replace") {
     private fun getInHandBlockType(player: Player): Material? {
         return if (player.inventory.itemInMainHand.type.isBlock) {
             player.inventory.itemInMainHand.type
+        } else {
+            null
+        }
+    }
+
+    private fun getInOffHandBlockType(player: Player): Material? {
+        return if (player.inventory.itemInOffHand.type.isBlock) {
+            player.inventory.itemInOffHand.type
         } else {
             null
         }

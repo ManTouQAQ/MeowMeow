@@ -16,7 +16,7 @@ class FillBlockTask(private val pos1: Location, private val pos2: Location, priv
             for (y in yRange) {
                 for (z in zRange) {
                     val block = pos1.world!!.getBlockAt(x, y, z)
-                    history.addSnapshot(x, y, z, block.type, type)
+                    history.addSnapshot(x, y, z, block.type, type, block.blockData)
                     block.type = type
                 }
             }

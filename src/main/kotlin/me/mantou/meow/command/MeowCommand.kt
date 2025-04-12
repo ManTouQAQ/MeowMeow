@@ -2,9 +2,12 @@ package me.mantou.meow.command
 
 import me.mantou.meow.MeowMeow
 import me.mantou.meow.message.ConstantMessage
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginLoader
+
 
 class MeowCommand : Command("meow") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
@@ -37,6 +40,10 @@ class MeowCommand : Command("meow") {
                 }
 
                 sender.sendMessage("§a[Meow] ${if (!inEditing) "§aEnable" else "§cDisable"} §aEditing")
+                return true
+            }else if (args[0].equals("hotswap", true)){
+                // TODO 实现重新加载
+                sender.sendMessage("§a[Meow] Hotswap Succeed")
                 return true
             }
         }

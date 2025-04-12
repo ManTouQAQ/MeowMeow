@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.util.CachedServerIcon
 import java.io.File
 
-class ServerPingConfig(val motdList: List<String>, val iconList: List<CachedServerIcon>) {
+data class ServerPingConfig(val motdList: List<String>, val iconList: List<CachedServerIcon>) {
     object ServerPingConfigParser : ConfigParser<ServerPingConfig>() {
         override fun target(): Class<ServerPingConfig> {
             return ServerPingConfig::class.java

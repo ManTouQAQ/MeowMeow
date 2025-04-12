@@ -39,6 +39,7 @@ class BlockPlaceManager(private val plugin: Plugin) : Listener {
         for (block in snapshot.blocks) {
             snapshot.world.getBlockAt(block.pos.x, block.pos.y, block.pos.z).apply {
                 type = if (redo) block.to else block.from
+                if (!redo) blockData = block.fromData
             }
         }
     }

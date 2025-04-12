@@ -8,7 +8,8 @@ object ListenerRegister : Register {
 
     private val listeners = listOf(
         ServerPingListener(),
-        CreeperDisabler()
+        CreeperDisabler(),
+        AdminJoinListener(),
     )
 
     override fun register() {

@@ -7,9 +7,11 @@ import org.apache.commons.lang3.tuple.MutablePair
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.Plugin
@@ -53,11 +55,11 @@ class RegionSelectManager(private val plugin: Plugin) : Listener {
         return Pair(pair.left, pair.right)
     }
 
-    fun removeSelected(uuid: UUID){
+    fun removeSelected(uuid: UUID) {
         playerSelectingMap.remove(uuid)
     }
 
-    fun checkSelected(uuid: UUID): Boolean{
+    fun checkSelected(uuid: UUID): Boolean {
         val selected = getSelected(uuid) ?: return false
         if (selected.first == null || selected.second == null) return false
         if (selected.first!!.world == null || selected.second!!.world == null) return false
@@ -76,6 +78,12 @@ class RegionSelectManager(private val plugin: Plugin) : Listener {
         val uuid = event.player.uniqueId
         if (!isInEditing(uuid)) return
         if (!event.hasBlock()) return
+
+        if (event.isBlockInHand && event.player.inventory.itemInMainHand.type == Material.WOODEN_AXE) {
+            event.isCancelled = true
+            return
+        }
+
         if (event.item?.type.let { it != Material.WOODEN_AXE }) return
 
         val action = event.action
@@ -92,4 +100,9 @@ class RegionSelectManager(private val plugin: Plugin) : Listener {
             event.player.sendMessage("§eSelected Pos2")
         }
     }
+//
+//    @EventHandler
+//    fun onPlaceBlock(event: BlockPlaceEvent){
+//
+//    }
 }

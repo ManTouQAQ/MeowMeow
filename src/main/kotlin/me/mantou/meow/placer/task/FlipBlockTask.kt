@@ -4,41 +4,53 @@ import me.mantou.meow.placer.BlockTask
 import me.mantou.meow.placer.history.BlockSnapshot
 import me.mantou.meow.placer.history.RegionHistory
 import me.mantou.meow.util.rangeTo
+import org.bukkit.Axis
 import org.bukkit.Location
 import org.bukkit.Material
 import org.joml.Vector3i
 
-class MoveBlockTask(
+class FlipBlockTask(
     private val pos1: Location,
     private val pos2: Location,
-    private val length: Int,
-    private val direction: Vector3i
+    private val flipAxis: Axis
 ) : BlockTask {
+
     override fun accept(history: RegionHistory) {
         history.start(pos1.world!!)
-
         val (xRange, yRange, zRange) = pos1.rangeTo(pos2)
 
-        val needMoveBlocks = mutableListOf<BlockSnapshot>()
+        val needFlipBlocks = mutableListOf<BlockSnapshot>()
         for (x in xRange) {
             for (y in yRange) {
                 for (z in zRange) {
                     val block = pos1.world!!.getBlockAt(x, y, z)
-                    needMoveBlocks.add(history.addSnapshot(x, y, z, block.type, Material.AIR, block.blockData))
-                    block.type = Material.AIR
+                    needFlipBlocks.add(BlockSnapshot(Vector3i(x, y, z), block.type, Material.AIR, block.blockData))
                 }
             }
         }
 
-        val offset = Vector3i(direction).mul(length)
+        val minX = xRange.first
+        val maxX = xRange.last
+        val minY = yRange.first
+        val maxY = yRange.last
+        val minZ = zRange.first
+        val maxZ = zRange.last
 
-        for (snapshot in needMoveBlocks) {
-            val newPos = Vector3i(snapshot.pos).add(offset)
+        for (snapshot in needFlipBlocks) {
+            val x = snapshot.pos.x
+            val y = snapshot.pos.y
+            val z = snapshot.pos.z
+
+            val newPos = when (flipAxis) {
+                Axis.Y -> Vector3i(x, maxY - (y - minY), z)
+                Axis.X -> Vector3i(maxX - (x - minX), y, z)
+                Axis.Z -> Vector3i(x, y, maxZ - (z - minZ))
+            }
 
             val block = pos1.world!!.getBlockAt(newPos.x, newPos.y, newPos.z)
             history.addSnapshot(newPos.x, newPos.y, newPos.z, block.type, snapshot.from, block.blockData)
             block.type = snapshot.from
-            block.blockData = snapshot.fromData
+            block.blockData = snapshot.fromData // TODO 实现带有方向性的方块的转向
         }
 
         history.push()

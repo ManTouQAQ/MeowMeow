@@ -2,6 +2,7 @@ package me.mantou.meow.placer.history
 
 import org.bukkit.Material
 import org.bukkit.World
+import org.bukkit.block.data.BlockData
 import org.joml.Vector3i
 
 class RegionHistory {
@@ -16,9 +17,9 @@ class RegionHistory {
         tempWorld = world
     }
 
-    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material): BlockSnapshot {
+    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material, fromData: BlockData): BlockSnapshot {
         if (tempWorld == null) throw RuntimeException("after add snapshot must call start method")
-        val snapshot = BlockSnapshot(Vector3i(x, y, z), from, to)
+        val snapshot = BlockSnapshot(Vector3i(x, y, z), from, to, fromData)
         tempBlockSnapshots.add(snapshot)
         return snapshot
     }
