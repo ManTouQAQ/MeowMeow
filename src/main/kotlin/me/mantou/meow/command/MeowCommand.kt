@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 class MeowCommand : Command("meow") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (args.isEmpty()){
-            sender.sendMessage("§emeow~")
+            sender.sendMessage("§e喵喵内个~")
             return true
         }
 

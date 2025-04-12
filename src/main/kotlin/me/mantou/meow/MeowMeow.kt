@@ -23,6 +23,9 @@ class MeowMeow : JavaPlugin() {
 
     override fun onEnable() {
         ConfigParserRegister.register()
+        // TODO
+        //  全部实现接口 Manager 然后统一管理并初始化
+        //  提供拓展方法 manager<xxxManager>() 和 manager(xxxManager::class.java)
         configManager.init()
         regionSelectManager.init()
         blockPlaceManager.init()

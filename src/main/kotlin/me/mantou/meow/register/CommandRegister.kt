@@ -20,6 +20,7 @@ object CommandRegister : Register {
         ReplaceBlockCommand(),
         UndoCommand(),
         RedoCommand(),
+        MoveCommand(),
     )
 
     override fun register() {

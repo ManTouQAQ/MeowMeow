@@ -13,7 +13,9 @@ class ServerPingListener : Listener{
         event.motd = config.motdList.randomOrNull() ?: ""
 
         config.iconList.randomOrNull()?.apply {
-            event.setServerIcon(this)
+            try {
+                event.setServerIcon(this)
+            }catch (_: UnsupportedOperationException){}
         }
     }
 }

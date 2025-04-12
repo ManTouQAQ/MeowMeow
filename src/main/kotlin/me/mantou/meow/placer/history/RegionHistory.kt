@@ -9,20 +9,22 @@ class RegionHistory {
     private var pointer = -1
 
     private var tempWorld: World? = null
-    private var tempBlockSnapshots = mutableListOf<BlockSnapshot>()
+    private var tempBlockSnapshots = mutableSetOf<BlockSnapshot>()
 
     fun start(world: World) {
         if (tempWorld != null) throw RuntimeException("after start history must call push method")
         tempWorld = world
     }
 
-    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material) {
+    fun addSnapshot(x: Int, y: Int, z: Int, from: Material, to: Material): BlockSnapshot {
         if (tempWorld == null) throw RuntimeException("after add snapshot must call start method")
-        tempBlockSnapshots.add(BlockSnapshot(Vector3i(x, y, z), from, to))
+        val snapshot = BlockSnapshot(Vector3i(x, y, z), from, to)
+        tempBlockSnapshots.add(snapshot)
+        return snapshot
     }
 
     fun push() {
-        addRegionSnapshot(RegionSnapshot(tempWorld!!, tempBlockSnapshots.toList()))
+        addRegionSnapshot(RegionSnapshot(tempWorld!!, tempBlockSnapshots.toSet()))
 
         tempWorld = null
         tempBlockSnapshots.clear()
