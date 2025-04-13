@@ -25,10 +25,10 @@ class MoveCommand : Command("/move") {
             return true
         }
 
-        val length = (args[0].toIntOrNull() ?: apply {
+        val length = args[0].toIntOrNull() ?: run {
             sender.sendMessage("§c长度必须为整数")
             return true
-        }) as Int
+        }
 
         val direction = if (args.size >= 2) {
             when (args[1].lowercase()) {
@@ -86,7 +86,7 @@ class MoveCommand : Command("/move") {
         return getYawDirection(player)
     }
 
-    private fun getYawDirection(player: Player, offset: Int = 0): Vector3i{
+    private fun getYawDirection(player: Player, offset: Int = 0): Vector3i {
         val normalizedYaw = ((player.location.yaw + offset) % 360 + 360) % 360
 
         return when (normalizedYaw) {

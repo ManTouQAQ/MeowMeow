@@ -20,15 +20,18 @@ class JumpToBlockCommand : Command("/j"){
 
         val targetBlock = sender.getTargetBlockExact(128)
         if (targetBlock == null) {
-            sender.sendMessage("§c未找到可站立的方块")
+            sender.sendMessage("§c准星没有指向方块")
             return true
         }
 
-        val location = findSafeLocation(targetBlock.location).apply {
+        val location = findSafeLocation(targetBlock.location)?.apply {
             yaw = sender.location.yaw
             pitch = sender.location.pitch
             x += 0.5
             z += 0.5
+        } ?: run {
+            sender.sendMessage("§c未找到可站立的位置")
+            return true
         }
 
         sender.teleport(location)
@@ -36,7 +39,7 @@ class JumpToBlockCommand : Command("/j"){
         return true
     }
 
-    private fun findSafeLocation(startLoc: Location): Location {
+    private fun findSafeLocation(startLoc: Location): Location? {
         val world = startLoc.world!!
         var y = startLoc.blockY + 1
 
@@ -53,6 +56,7 @@ class JumpToBlockCommand : Command("/j"){
             y++
             check++
         }
-        throw RuntimeException("can't find safe location? normally unreachable here")
+//        throw RuntimeException("can't find safe location? normally unreachable here")
+        return null
     }
 }
