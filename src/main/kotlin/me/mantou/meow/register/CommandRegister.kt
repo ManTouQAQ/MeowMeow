@@ -24,6 +24,7 @@ object CommandRegister : Register {
         MoveCommand(),
         FlipCommand(),
         JumpToBlockCommand(),
+        RotateCommand(),
     )
 
     override fun register() {

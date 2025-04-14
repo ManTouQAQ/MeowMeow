@@ -21,7 +21,7 @@ class ReplaceBlockTask(
                     val block = pos1.world!!.getBlockAt(x, y, z)
                     if (block.type == from) {
                         history.addSnapshot(x, y, z, block.type, to, block.blockData)
-                        block.type = to
+                        block.setType(to, false)
                     }
                 }
             }

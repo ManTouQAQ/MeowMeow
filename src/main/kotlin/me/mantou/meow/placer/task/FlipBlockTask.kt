@@ -57,9 +57,9 @@ class FlipBlockTask(
                 block.blockData,
                 snapshot.fromData
             )
-            block.type = snapshot.from
+            block.setType(snapshot.from, false)
             snapshot.fromData?.apply {
-                block.blockData = this
+                block.setBlockData(this, false)
             } // TODO 实现带有方向性的方块的转向
         }
 

@@ -22,7 +22,7 @@ class ReplaceBlockCommand : Command("/replace") {
         }
 
         if (args.size < 2) {
-            sender.sendMessage("§cUsage: /$root [from] [to]")
+            sender.sendMessage("§cUsage: /$root <from> <to>")
             return true
         }
 

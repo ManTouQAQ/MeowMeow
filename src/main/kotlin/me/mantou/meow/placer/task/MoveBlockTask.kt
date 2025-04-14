@@ -25,7 +25,7 @@ class MoveBlockTask(
                 for (z in zRange) {
                     val block = pos1.world!!.getBlockAt(x, y, z)
                     needMoveBlocks.add(history.addSnapshot(x, y, z, block.type, Material.AIR, block.blockData))
-                    block.type = Material.AIR
+                    block.setType(Material.AIR, false)
                 }
             }
         }
@@ -44,10 +44,10 @@ class MoveBlockTask(
                 history.addSnapshot(newPos.x, newPos.y, newPos.z, block.type, needMoveSnapshot.from, block.blockData, needMoveSnapshot.fromData)
             }
 
-            block.type = needMoveSnapshot.from
+            block.setType(needMoveSnapshot.from, false)
 
             needMoveSnapshot.fromData?.apply {
-                block.blockData = this
+                block.setBlockData(this, false)
             }
         }
 
