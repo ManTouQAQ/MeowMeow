@@ -9,14 +9,14 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.Plugin
 import java.util.UUID
 
-class BlockPlaceManager(private val plugin: Plugin) : Listener {
+class RegionPlaceManager(private val plugin: Plugin) : Listener {
     private val placeHistories = mutableMapOf<UUID, RegionHistory>()
 
     fun init() {
         Bukkit.getPluginManager().registerEvents(this, plugin)
     }
 
-    fun queueTask(uuid: UUID, task: BlockTask) {
+    fun queueTask(uuid: UUID, task: RegionTask) {
         val history = placeHistories.getOrPut(uuid) { RegionHistory() }
         task.accept(history)
     }

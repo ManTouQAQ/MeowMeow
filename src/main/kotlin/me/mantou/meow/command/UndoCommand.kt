@@ -18,7 +18,7 @@ class UndoCommand : Command("/undo"){
             return true
         }
 
-        val result = MeowMeow.INSTANCE.blockPlaceManager.undoHistory(sender.uniqueId)
+        val result = MeowMeow.INSTANCE.regionPlaceManager.undoHistory(sender.uniqueId)
 
         if (result){
             sender.sendMessage("§a成功撤回")

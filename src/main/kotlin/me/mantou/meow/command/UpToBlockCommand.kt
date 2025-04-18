@@ -6,7 +6,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class UpCommand : Command("/up"){
+class UpToBlockCommand : Command("/up"){
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage(ConstantMessage.ONLY_PLAYER)

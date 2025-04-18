@@ -1,6 +1,6 @@
 package me.mantou.meow.placer.task
 
-import me.mantou.meow.placer.BlockTask
+import me.mantou.meow.placer.RegionTask
 import me.mantou.meow.placer.history.BlockSnapshot
 import me.mantou.meow.placer.history.RegionHistory
 import me.mantou.meow.util.rangeTo
@@ -9,11 +9,11 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.joml.Vector3i
 
-class FlipBlockTask(
+class FlipRegionTask(
     private val pos1: Location,
     private val pos2: Location,
     private val flipAxis: Axis
-) : BlockTask {
+) : RegionTask {
 
     override fun accept(history: RegionHistory) {
         history.start(pos1.world!!)

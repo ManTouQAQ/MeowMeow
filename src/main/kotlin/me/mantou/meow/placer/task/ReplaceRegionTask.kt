@@ -1,17 +1,17 @@
 package me.mantou.meow.placer.task
 
-import me.mantou.meow.placer.BlockTask
+import me.mantou.meow.placer.RegionTask
 import me.mantou.meow.placer.history.RegionHistory
 import me.mantou.meow.util.rangeTo
 import org.bukkit.Location
 import org.bukkit.Material
 
-class ReplaceBlockTask(
+class ReplaceRegionTask(
     private val pos1: Location,
     private val pos2: Location,
     private val from: Material,
     private val to: Material
-) : BlockTask {
+) : RegionTask {
     override fun accept(history: RegionHistory) {
         history.start(pos1.world!!)
         val (xRange, yRange, zRange) = pos1.rangeTo(pos2)

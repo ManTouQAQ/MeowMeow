@@ -2,13 +2,13 @@ package me.mantou.meow.command
 
 import me.mantou.meow.MeowMeow
 import me.mantou.meow.message.ConstantMessage
-import me.mantou.meow.placer.task.FillBlockTask
+import me.mantou.meow.placer.task.FillRegionTask
 import me.mantou.meow.util.NMSUtil
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SetBlockCommand : Command("/set") {
+class SetRegionCommand : Command("/set") {
     override fun execute(sender: CommandSender, root: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage(ConstantMessage.ONLY_PLAYER)
@@ -53,10 +53,10 @@ class SetBlockCommand : Command("/set") {
                 "(${pos2.x}, ${pos2.y}, ${pos2.z}) to ${NMSUtil.bukkitBlockTypeToKey(blockType)}")
 
         MeowMeow.INSTANCE
-            .blockPlaceManager
+            .regionPlaceManager
             .queueTask(
                 sender.uniqueId,
-                FillBlockTask(pos1, pos2, blockType)
+                FillRegionTask(pos1, pos2, blockType)
             )
         return true
     }

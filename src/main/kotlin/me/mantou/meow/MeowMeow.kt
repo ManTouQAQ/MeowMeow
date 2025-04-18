@@ -1,7 +1,7 @@
 package me.mantou.meow
 
 import me.mantou.meow.config.ConfigManager
-import me.mantou.meow.placer.BlockPlaceManager
+import me.mantou.meow.placer.RegionPlaceManager
 import me.mantou.meow.manager.RegionSelectManager
 import me.mantou.meow.register.CommandRegister
 import me.mantou.meow.register.ConfigParserRegister
@@ -15,7 +15,7 @@ class MeowMeow : JavaPlugin() {
 
     val configManager = ConfigManager(dataFolder)
     val regionSelectManager = RegionSelectManager(this)
-    val blockPlaceManager = BlockPlaceManager(this)
+    val regionPlaceManager = RegionPlaceManager(this)
 
     init {
         INSTANCE = this
@@ -28,7 +28,7 @@ class MeowMeow : JavaPlugin() {
         //  提供拓展方法 manager<xxxManager>() 和 manager(xxxManager::class.java)
         configManager.init()
         regionSelectManager.init()
-        blockPlaceManager.init()
+        regionPlaceManager.init()
         CommandRegister.register()
         ListenerRegister.register()
     }

@@ -18,7 +18,7 @@ class RedoCommand : Command("/redo"){
             return true
         }
 
-        val result = MeowMeow.INSTANCE.blockPlaceManager.redoHistory(sender.uniqueId)
+        val result = MeowMeow.INSTANCE.regionPlaceManager.redoHistory(sender.uniqueId)
 
         if (result){
             sender.sendMessage("§a成功恢复")

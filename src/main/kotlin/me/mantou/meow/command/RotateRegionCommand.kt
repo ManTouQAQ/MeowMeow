@@ -2,13 +2,13 @@ package me.mantou.meow.command
 
 import me.mantou.meow.MeowMeow
 import me.mantou.meow.message.ConstantMessage
-import me.mantou.meow.placer.task.FlipBlockTask
-import org.bukkit.Axis
+import me.mantou.meow.placer.task.RotateRegionTask
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.joml.Vector3i
 
-class FlipCommand : Command("/flip") {
+class RotateRegionCommand: Command("/rotate") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage(ConstantMessage.ONLY_PLAYER)
@@ -20,28 +20,28 @@ class FlipCommand : Command("/flip") {
             return true
         }
 
-        val axis = if (args.isNotEmpty()) {
-            when (args[0].lowercase()) {
-                "x" -> Axis.X
-                "y" -> Axis.Y
-                "z" -> Axis.Z
+        if (args.isEmpty()){
+            sender.sendMessage("§cUsage: /$commandLabel <angdeg> [axis]")
+            return true
+        }
+
+        val angdeg = args[0].toIntOrNull() ?: run{
+            sender.sendMessage("§c角度必须为整数")
+            return true
+        }
+
+        val axis = if (args.size > 1) {
+            when (args[1].lowercase()) {
+                "x" -> Vector3i(1, 0, 0)
+                "y" -> Vector3i(0, 1, 0)
+                "z" -> Vector3i(0, 0, 1)
                 else -> {
                     sender.sendMessage("§c未知轴向")
                     return true
                 }
             }
         } else {
-            if (sender.location.pitch < -60 || sender.location.pitch > 60) {
-                Axis.Y
-            }else{
-                val normalizedYaw = (sender.location.yaw % 360 + 360) % 360
-                when (normalizedYaw) {
-                    in 45.0..135.0 -> Axis.Z
-                    in 225.0..315.0 -> Axis.Z
-                    in 135.0..225.0 -> Axis.X
-                    else -> Axis.X
-                }
-            }
+            Vector3i(0, 1, 0)
         }
 
         val selectManager = MeowMeow.INSTANCE.regionSelectManager
@@ -57,17 +57,17 @@ class FlipCommand : Command("/flip") {
         val pos2 = selected.second!!
 
         sender.sendMessage(
-            "§aFlipping region: " +
+            "§aRotate region: " +
                     "(${pos1.x}, ${pos1.y}, ${pos1.z}) " +
                     "-> " +
-                    "(${pos2.x}, ${pos2.y}, ${pos2.z}) axis $axis"
+                    "(${pos2.x}, ${pos2.y}, ${pos2.z}) with axis (${axis.x}, ${axis.y}, ${axis.z}), angdeg $angdeg"
         )
 
         MeowMeow.INSTANCE
-            .blockPlaceManager
+            .regionPlaceManager
             .queueTask(
                 sender.uniqueId,
-                FlipBlockTask(pos1, pos2, axis)
+                RotateRegionTask(pos1, pos2, sender.location, angdeg.toDouble(), axis)
             )
         return true
     }

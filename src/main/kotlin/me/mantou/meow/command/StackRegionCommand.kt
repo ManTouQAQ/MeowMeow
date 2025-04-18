@@ -2,13 +2,13 @@ package me.mantou.meow.command
 
 import me.mantou.meow.MeowMeow
 import me.mantou.meow.message.ConstantMessage
-import me.mantou.meow.placer.task.MoveBlockTask
+import me.mantou.meow.placer.task.StackRegionTask
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.joml.Vector3i
 
-class MoveCommand : Command("/move") {
+class StackRegionCommand : Command("/stack") {
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage(ConstantMessage.ONLY_PLAYER)
@@ -25,8 +25,8 @@ class MoveCommand : Command("/move") {
             return true
         }
 
-        val length = args[0].toIntOrNull() ?: run {
-            sender.sendMessage("§c长度必须为整数")
+        val count = args[0].toUIntOrNull() ?: run {
+            sender.sendMessage("§c长度必须为正整数")
             return true
         }
 
@@ -64,17 +64,17 @@ class MoveCommand : Command("/move") {
         val pos2 = selected.second!!
 
         sender.sendMessage(
-            "§aMoving region: " +
+            "§aStacking region: " +
                     "(${pos1.x}, ${pos1.y}, ${pos1.z}) " +
                     "-> " +
-                    "(${pos2.x}, ${pos2.y}, ${pos2.z}) to (${direction.x}, ${direction.y}, ${direction.z}) * $length"
+                    "(${pos2.x}, ${pos2.y}, ${pos2.z}) to (${direction.x}, ${direction.y}, ${direction.z}) * $count"
         )
 
         MeowMeow.INSTANCE
-            .blockPlaceManager
+            .regionPlaceManager
             .queueTask(
                 sender.uniqueId,
-                MoveBlockTask(pos1, pos2, length, direction)
+                StackRegionTask(pos1, pos2, count, direction)
             )
         return true
     }

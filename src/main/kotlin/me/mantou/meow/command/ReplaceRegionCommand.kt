@@ -2,14 +2,14 @@ package me.mantou.meow.command
 
 import me.mantou.meow.MeowMeow
 import me.mantou.meow.message.ConstantMessage
-import me.mantou.meow.placer.task.ReplaceBlockTask
+import me.mantou.meow.placer.task.ReplaceRegionTask
 import me.mantou.meow.util.NMSUtil
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReplaceBlockCommand : Command("/replace") {
+class ReplaceRegionCommand : Command("/replace") {
     override fun execute(sender: CommandSender, root: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage(ConstantMessage.ONLY_PLAYER)
@@ -48,10 +48,10 @@ class ReplaceBlockCommand : Command("/replace") {
                 "(${pos2.x}, ${pos2.y}, ${pos2.z}) to ${NMSUtil.bukkitBlockTypeToKey(to)}")
 
         MeowMeow.INSTANCE
-            .blockPlaceManager
+            .regionPlaceManager
             .queueTask(
                 sender.uniqueId,
-                ReplaceBlockTask(pos1, pos2, from, to)
+                ReplaceRegionTask(pos1, pos2, from, to)
             )
         return true
     }

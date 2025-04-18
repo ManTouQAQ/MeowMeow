@@ -14,18 +14,19 @@ object CommandRegister : Register {
         .invoke(Bukkit.getServer()) as CommandMap
 
     private val commands = listOf(
-        SetBlockCommand(),
+        SetRegionCommand(),
         GetPosCommand(),
         MeowCommand(),
         HatCommand(),
-        ReplaceBlockCommand(),
+        ReplaceRegionCommand(),
         UndoCommand(),
         RedoCommand(),
-        MoveCommand(),
-        FlipCommand(),
+        MoveRegionCommand(),
+        FlipRegionCommand(),
         JumpToBlockCommand(),
-        RotateCommand(),
-        UpCommand(),
+        RotateRegionCommand(),
+        UpToBlockCommand(),
+        StackRegionCommand(),
     )
 
     override fun register() {

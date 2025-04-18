@@ -1,6 +1,6 @@
 package me.mantou.meow.placer.task
 
-import me.mantou.meow.placer.BlockTask
+import me.mantou.meow.placer.RegionTask
 import me.mantou.meow.placer.history.BlockSnapshot
 import me.mantou.meow.placer.history.RegionHistory
 import me.mantou.meow.util.rangeTo
@@ -10,13 +10,13 @@ import org.joml.Matrix3f
 import org.joml.Vector3f
 import org.joml.Vector3i
 
-class RotateBlockTask(
+class RotateRegionTask(
     private val pos1: Location,
     private val pos2: Location,
     private val center: Location,
     private val angdeg: Double,
     private val axis: Vector3i
-) : BlockTask {
+) : RegionTask {
     override fun accept(history: RegionHistory) {
         history.start(pos1.world!!)
 
