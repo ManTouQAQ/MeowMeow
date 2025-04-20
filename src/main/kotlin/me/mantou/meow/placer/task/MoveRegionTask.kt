@@ -46,7 +46,7 @@ class MoveRegionTask(
 
             block.setType(needMoveSnapshot.from, false)
 
-            needMoveSnapshot.fromData?.apply {
+            needMoveSnapshot.fromData?.run {
                 block.setBlockData(this, false)
             }
         }

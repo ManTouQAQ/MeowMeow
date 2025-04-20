@@ -45,7 +45,7 @@ class StackRegionTask(
 
                 history.addSnapshot(blockAt.x, blockAt.y, blockAt.z, blockAt.type, needMoveSnapshot.from, blockAt.blockData, needMoveSnapshot.fromData)
                 blockAt.setType(needMoveSnapshot.from, false)
-                needMoveSnapshot.fromData?.apply {
+                needMoveSnapshot.fromData?.run {
                     blockAt.setBlockData(this, false)
                 }
             }

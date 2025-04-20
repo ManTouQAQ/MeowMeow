@@ -58,7 +58,7 @@ class FlipRegionTask(
                 snapshot.fromData
             )
             block.setType(snapshot.from, false)
-            snapshot.fromData?.apply {
+            snapshot.fromData?.run {
                 block.setBlockData(this, false)
             } // TODO 实现带有方向性的方块的转向
         }

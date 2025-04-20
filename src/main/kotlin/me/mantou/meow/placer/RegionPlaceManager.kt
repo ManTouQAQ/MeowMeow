@@ -39,7 +39,7 @@ class RegionPlaceManager(private val plugin: Plugin) : Listener {
         for (block in snapshot.blocks) {
             snapshot.world.getBlockAt(block.pos.x, block.pos.y, block.pos.z).apply {
                 setType(if (redo) block.to else block.from, false)
-                (if (redo) block.toData else block.fromData)?.apply {
+                (if (redo) block.toData else block.fromData)?.run {
                     setBlockData(this, false)
                 }
             }

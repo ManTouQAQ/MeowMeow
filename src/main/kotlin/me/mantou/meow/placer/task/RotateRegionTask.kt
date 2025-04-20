@@ -79,7 +79,7 @@ class RotateRegionTask(
             overlapBuffer.add(snapshot)
 
             block.setType(needMoveSnapshot.from, false)
-            needMoveSnapshot.fromData?.apply {
+            needMoveSnapshot.fromData?.run {
                 block.setBlockData(this, false)
             }
         }

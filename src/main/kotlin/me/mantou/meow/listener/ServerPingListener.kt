@@ -12,7 +12,7 @@ class ServerPingListener : Listener{
         val config = config<ServerPingConfig>()
         event.motd = config.motdList.randomOrNull() ?: ""
 
-        config.iconList.randomOrNull()?.apply {
+        config.iconList.randomOrNull()?.run {
             try {
                 event.setServerIcon(this)
             }catch (_: UnsupportedOperationException){}
