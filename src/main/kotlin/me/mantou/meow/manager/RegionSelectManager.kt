@@ -98,9 +98,4 @@ class RegionSelectManager(private val plugin: Plugin) : Listener {
             event.player.sendMessage("§eSelected Pos2")
         }
     }
-//
-//    @EventHandler
-//    fun onPlaceBlock(event: BlockPlaceEvent){
-//
-//    }
 }
