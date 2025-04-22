@@ -10,6 +10,7 @@ object ConfigParserRegister : Register {
             registerParser(ServerPingConfig.ServerPingConfigParser)
             registerParser(CreeperDisablerConfig.CreeperDisablerConfigParser)
             registerParser(AdminListConfig.AdminListConfigParser)
+            registerParser(ServerLinksConfig.ServerLinksConfigParser)
         }
     }
 }

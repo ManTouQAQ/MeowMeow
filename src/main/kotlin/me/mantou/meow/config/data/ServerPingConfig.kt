@@ -19,7 +19,7 @@ data class ServerPingConfig(val motdList: List<String>, val iconList: List<Cache
                 val motdConfig = YamlConfiguration.loadConfiguration(motdFile)
                 motdConfig.getStringList("motds")
             } else {
-                listOf()
+                emptyList()
             }
 
             val iconsFolder = folder.resolve("./motd/icons")

@@ -10,6 +10,7 @@ object ListenerRegister : Register {
         ServerPingListener(),
         CreeperDisabler(),
         AdminJoinListener(),
+        ServerLinksSender(),
     )
 
     override fun register() {
